@@ -32,6 +32,8 @@ def wait_for_dns(domain, expected_ip, timeout=300, interval=15):
 def execute_tool(name, args):
     if name == "create_v2ray_user":
         return create_v2ray_user(args)
+    if name == "delete_v2ray_user":
+        return delete_v2ray_user(args)
     if name == "restart_service":
         return restart_service(args)
     if name == "get_logs":
@@ -108,6 +110,20 @@ def get_logs(args):
         return f"**Logs:** {service} on {server.upper()}\n```\n{output}\n```"
     except Exception as e:
         return f"**Status:** Error - {str(e)}"
+
+def delete_v2ray_user(args):
+    username = args["username"].lower()
+    server = args["server"]
+    if username.endswith(".neweb.me"):
+        domain = username
+    else:
+        domain = f"{username}.neweb.me"
+    host = get_host(server)
+    try:
+        output = ssh_run(host, f"v2ray delete ws {domain} 2>&1 || v2ray remove ws {domain} 2>&1 || v2ray del ws {domain} 2>&1")
+        return f"**Server:** {server.upper()}\n**Domain:** {domain}\n**Status:** Deleted successfully\n**Output:**\n```\n{output}\n```"
+    except Exception as e:
+        return f"**Server:** {server.upper()}\n**Domain:** {domain}\n**Status:** Error - {str(e)}"
 
 def list_users(args):
     server = args["server"]

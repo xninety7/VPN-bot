@@ -68,6 +68,21 @@ def run_agent(text):
             return "❌ Please specify a server: `list users on <ph|hk>`"
         return execute_tool("list_users", {"server": server})
 
+    # delete user <name> on <server>
+    if text.startswith("delete user"):
+        server = parse_server(text)
+        if not server or server == "both":
+            return "❌ Please specify a server: `delete user <name> on <ph|hk>`"
+        try:
+            parts = text.replace("delete user", "").strip().split()
+            username = parts[0]
+        except:
+            return "❌ Please provide a username: `delete user <name> on <ph|hk>`"
+        return execute_tool("delete_v2ray_user", {
+            "username": username,
+            "server": server
+        })
+
     # restart <service> on <server>
     if text.startswith("restart"):
         server = parse_server(text)
