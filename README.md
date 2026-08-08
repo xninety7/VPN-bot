@@ -18,13 +18,13 @@ Managing V2Ray users manually required SSHing into servers, navigating interacti
 Just type "add user <name_of_the_user> on <location>
 
 **Architecture**
-                  Lark Chat
+  Lark Chat -->  bot.neweb.me (Caddy HTTPS) --> Flask Webhook Server (port 8000) -->  Command Parser -->
+                      
+                 
                       ↓
-                  bot.neweb.me (Caddy HTTPS)
+                  
                       ↓
-                  Flask Webhook Server (port 8000)
-                      ↓
-                  Command Parser
+                 
                       ↓
                   ┌─────────────────────────────┐
                   │  name.com DNS API           │  → Creates subdomain A record
