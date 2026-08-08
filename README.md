@@ -18,22 +18,19 @@ Managing V2Ray users manually required SSHing into servers, navigating interacti
 Just type "add user <name_of_the_user> on <location>
 
 **Architecture**
-  Lark Chat -->  bot.neweb.me (Caddy HTTPS) --> Flask Webhook Server (port 8000) -->  Command Parser -->
+  Lark Chat -->  bot.neweb.me (Caddy HTTPS) --> Flask Webhook Server (port 8000)    
                       
-                 
-                      ↓
-                  
-                      ↓
-                 
-                      ↓
-                  ┌─────────────────────────────┐
-                  │  name.com DNS API           │  → Creates subdomain A record
-                  │  DNS Propagation Polling    │  → Waits until resolved
-                  │  SSH via Paramiko           │  → Connects to V2Ray servers
-                  │  233boy v2ray script        │  → Provisions user config
-                  └─────────────────────────────┘
-                      ↓
-                  Lark Message Card (reply)
+                                                  ↓
+                                             Command Parser
+                                                  ↓
+                                              ┌─────────────────────────────┐
+                                              │  name.com DNS API           │  → Creates subdomain A record
+                                              │  DNS Propagation Polling    │  → Waits until resolved
+                                              │  SSH via Paramiko           │  → Connects to V2Ray servers
+                                              │  233boy v2ray script        │  → Provisions user config
+                                              └─────────────────────────────┘
+                                                  ↓
+                                              Lark Message Card (reply)
 **Features**
               * Create V2Ray users (VMess-WS-TLS) on PH, HK, or both servers
               * Automatic DNS record creation via name.com API
