@@ -144,6 +144,7 @@ systemctl start vpn-bot
 
 
 6. Configure Lark App
+   
               * Go to open.larksuite.com → Create App → Custom App
               * Credentials & Basic Info → copy App ID and App Secret to .env
               * Events & Callbacks → enable webhook → set URL to https://bot.neweb.me/webhook
