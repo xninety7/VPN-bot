@@ -48,14 +48,15 @@ Just type "add user <name_of_the_user> on <location>
               * systemd service with auto-restart
 
 Project Structure
-                                            vpn-bot/
-                                              ├── main.py           # Flask app, Lark webhook endpoint
-                                              ├── claude_agent.py   # Command parser and router
-                                              ├── tools.py          # Tool executor (create, delete, restart, logs)
-                                              ├── ssh_client.py     # SSH helper using Paramiko
-                                              ├── namecom.py        # name.com DNS API client
-                                              ├── lark_client.py    # Lark messaging client (text + cards)
-                                              └── .env              # Environment variables (not committed)
+                    vpn-bot/
+                    
+                      ├─ main.py           # Flask app, Lark webhook endpoint
+                      ├─ claude_agent.py   # Command parser and router
+                      ├─ tools.py          # Tool executor (create, delete, restart, logs)
+                      ├─ ssh_client.py     # SSH helper using Paramiko
+                      ├─ namecom.py        # name.com DNS API client
+                      ├─ lark_client.py    # Lark messaging client (text + cards)
+                      └─ .env              # Environment variables (not committed)
 
 **Bot Commands**
 Command	Description
