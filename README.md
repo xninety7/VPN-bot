@@ -144,24 +144,24 @@ systemctl start vpn-bot
 
 
 6. Configure Lark App
-    * Go to open.larksuite.com → Create App → Custom App
-    * Credentials & Basic Info → copy App ID and App Secret to .env
-    * Events & Callbacks → enable webhook → set URL to https://bot.neweb.me/webhook
-    * Subscribe to event: im.message.receive_v1
-    * Permissions & Scopes → add im:message, im:message.p2p_msg, im:message:send_as_bot
-    * Version Management → release the app
+              * Go to open.larksuite.com → Create App → Custom App
+              * Credentials & Basic Info → copy App ID and App Secret to .env
+              * Events & Callbacks → enable webhook → set URL to https://bot.neweb.me/webhook
+              * Subscribe to event: im.message.receive_v1
+              * Permissions & Scopes → add im:message, im:message.p2p_msg, im:message:send_as_bot
+              * Version Management → release the app
 
 **How V2Ray User Creation Works**
-    1. Parse command → extract username and server
-    2. Call name.com API → POST /v4/domains/neweb.me/records
-       → creates alice100.neweb.me A record → server IP
-    3. Poll DNS every 15s → socket.gethostbyname()
-       → wait until resolves correctly (max 5 min)
-    4. SSH into server via Paramiko
-       → echo "y" | v2ray add ws alice100.neweb.me
-    5. Strip ANSI codes from output
-       → extract vmess:// URL
-    6. Send Lark card with domain, protocol, status, URL
+              1. Parse command → extract username and server
+              2. Call name.com API → POST /v4/domains/neweb.me/records
+                 → creates alice100.neweb.me A record → server IP
+              3. Poll DNS every 15s → socket.gethostbyname()
+                 → wait until resolves correctly (max 5 min)
+              4. SSH into server via Paramiko
+                 → echo "y" | v2ray add ws alice100.neweb.me
+              5. Strip ANSI codes from output
+                 → extract vmess:// URL
+              6. Send Lark card with domain, protocol, status, URL
 
 **Managing the Bot**
 
