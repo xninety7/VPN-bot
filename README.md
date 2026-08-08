@@ -152,6 +152,7 @@ systemctl start vpn-bot
               * Version Management → release the app
 
 **How V2Ray User Creation Works**
+
               1. Parse command → extract username and server
               2. Call name.com API → POST /v4/domains/neweb.me/records
                  → creates alice100.neweb.me A record → server IP
