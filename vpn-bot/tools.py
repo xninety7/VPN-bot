@@ -54,10 +54,9 @@ def create_v2ray_user(args):
     server = args["server"]
     subdomain = username
     domain = f"{subdomain}.neweb.me"
-    output = ssh_run(host, f"v2ray add ws {domain}", srv)
 
     servers = []
-    if server == "both":
+    if server == "all":
         servers = [("ph", PH_HOST), ("hk", HK_HOST), ("sg", SG_HOST)]
     else:
         servers = [(server, get_host(server))]
@@ -128,7 +127,7 @@ def delete_v2ray_user(args):
         domain = f"{username}.neweb.me"
     host = get_host(server)
     try:
-        output = ssh_run(host, f"v2ray delete ws {domain} 2>&1 || v2ray remove ws {domain} 2>&1 || v2ray del ws {domain} 2>&1", server)
+        output = ssh_run(host, f"v2ray delete ws {domain} 2>&1 || v2ray remove ws {domain} 2>&1 || v2ray del ws {domain} 2>&1"  , server)
         return f"**Server:** {server.upper()}\n**Domain:** {domain}\n**Status:** Deleted successfully\n**Output:**\n```\n{output}\n```"
     except Exception as e:
         return f"**Server:** {server.upper()}\n**Domain:** {domain}\n**Status:** Error - {str(e)}"
@@ -137,7 +136,7 @@ def list_users(args):
     server = args["server"]
     host = get_host(server)
     try:
-        output = ssh_run(host, "ls /etc/v2ray/conf/ | grep VMess-WS-TLS")
+        output = ssh_run(host, "ls /etc/v2ray/conf/ | grep VMess-WS-TLS", server)
         return f"**Users on {server.upper()}:**\n{output}"
     except Exception as e:
         return f"**Status:** Error - {str(e)}"

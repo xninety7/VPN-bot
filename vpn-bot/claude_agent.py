@@ -22,8 +22,8 @@ HELP_TEXT = """
 """
 
 def parse_server(text):
-    if "both" in text:
-        return "both"
+    if "all" in text:
+        return "all"
     elif " sg" in text or "sg " in text:
         return "sg"
     elif " hk" in text or "hk " in text:
@@ -89,7 +89,7 @@ def run_agent(text):
     if text.startswith("restart"):
         server = parse_server(text)
         service = parse_service(text)
-        if not server or server == "both":
+        if not server or server == "all":
             return "❌ Please specify a server: `restart <v2ray|caddy> on <ph|hk>`"
         if not service:
             return "❌ Please specify a service: `restart <v2ray|caddy> on <ph|hk>`"
@@ -102,7 +102,7 @@ def run_agent(text):
     if text.startswith("logs") or "logs" in text:
         server = parse_server(text)
         service = parse_service(text)
-        if not server or server == "both":
+        if not server or server == "all":
             return "❌ Please specify a server: `logs <v2ray|caddy> on <ph|hk>`"
         if not service:
             return "❌ Please specify a service: `logs <v2ray|caddy> on <ph|hk>`"
