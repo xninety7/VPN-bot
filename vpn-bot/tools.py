@@ -10,9 +10,16 @@ from namecom import create_dns_record
 
 PH_HOST = os.getenv("PH_HOST")
 HK_HOST = os.getenv("HK_HOST")
+SG_HOST = os.getenv("SG_HOST")
+
 
 def get_host(server):
-    return PH_HOST if server == "ph" else HK_HOST
+    hosts = {
+        "ph": PH_HOST,
+        "hk": HK_HOST,
+        "sg": SG_HOST,
+    }
+    return hosts.get(server)
 
 def wait_for_dns(domain, expected_ip, timeout=300, interval=15):
     print(f"Waiting for {domain} to resolve to {expected_ip}...")
@@ -47,10 +54,11 @@ def create_v2ray_user(args):
     server = args["server"]
     subdomain = username
     domain = f"{subdomain}.neweb.me"
+    output = ssh_run(host, f"v2ray add ws {domain}", srv)
 
     servers = []
     if server == "both":
-        servers = [("ph", PH_HOST), ("hk", HK_HOST)]
+        servers = [("ph", PH_HOST), ("hk", HK_HOST), ("sg", SG_HOST)]
     else:
         servers = [(server, get_host(server))]
 
@@ -69,7 +77,7 @@ def create_v2ray_user(args):
 
             # Step 3: Run v2ray add on server
             print(f"Running v2ray add on {srv}")
-            output = ssh_run(host, f"v2ray add ws {domain}")
+            output = ssh_run(host, f"v2ray add ws {domain}", srv)
             print(f"v2ray output: {output}")
 
             # Step 4: Strip ANSI color codes then extract VMess URL
@@ -94,8 +102,8 @@ def restart_service(args):
     service = args["service"]
     host = get_host(server)
     try:
-        output = ssh_run(host, f"systemctl restart {service}")
-        status = ssh_run(host, f"systemctl is-active {service}")
+        output = ssh_run(host, f"systemctl restart {service}", server)
+        status = ssh_run(host, f"systemctl is-active {service}", server)
         return f"**Server:** {server.upper()}\n**Service:** {service}\n**Status:** {status.strip()}"
     except Exception as e:
         return f"**Server:** {server.upper()}\n**Status:** Error - {str(e)}"
@@ -106,7 +114,7 @@ def get_logs(args):
     lines = args.get("lines", 50)
     host = get_host(server)
     try:
-        output = ssh_run(host, f"journalctl -u {service} -n {lines} --no-pager")
+        output = ssh_run(host, f"journalctl -u {service} -n {lines} --no-pager", server)
         return f"**Logs:** {service} on {server.upper()}\n```\n{output}\n```"
     except Exception as e:
         return f"**Status:** Error - {str(e)}"
@@ -120,7 +128,7 @@ def delete_v2ray_user(args):
         domain = f"{username}.neweb.me"
     host = get_host(server)
     try:
-        output = ssh_run(host, f"v2ray delete ws {domain} 2>&1 || v2ray remove ws {domain} 2>&1 || v2ray del ws {domain} 2>&1")
+        output = ssh_run(host, f"v2ray delete ws {domain} 2>&1 || v2ray remove ws {domain} 2>&1 || v2ray del ws {domain} 2>&1", server)
         return f"**Server:** {server.upper()}\n**Domain:** {domain}\n**Status:** Deleted successfully\n**Output:**\n```\n{output}\n```"
     except Exception as e:
         return f"**Server:** {server.upper()}\n**Domain:** {domain}\n**Status:** Error - {str(e)}"
