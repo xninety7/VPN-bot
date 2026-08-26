@@ -10,12 +10,9 @@ from namecom import create_dns_record
 
 PH_HOST = os.getenv("PH_HOST")
 HK_HOST = os.getenv("HK_HOST")
-SG_HOST = os.getenv("SG_HOST")
-
-HOSTS = {"ph": PH_HOST, "hk": HK_HOST, "sg": SG_HOST}
 
 def get_host(server):
-    return HOSTS.get(server)
+    return PH_HOST if server == "ph" else HK_HOST
 
 def wait_for_dns(domain, expected_ip, timeout=300, interval=15):
     print(f"Waiting for {domain} to resolve to {expected_ip}...")

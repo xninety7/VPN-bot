@@ -1,9 +1,9 @@
 import paramiko
 import os
 
-def ssh_run(host, command, user=None):
+def ssh_run(host, command):
     key_path = os.getenv("SSH_KEY_PATH", "/root/.ssh/v2ray_monitor")
-    user = user or os.getenv("PH_USER", "root")
+    user = os.getenv("PH_USER", "root")
 
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())

@@ -4,18 +4,18 @@ HELP_TEXT = """
 *VPN Ops Bot Commands*
 
 *V2Ray Users:*
-- `add user <name> on <ph|hk|sg|both>` — Create a new V2Ray user
-- `list users on <ph|hk|sg>` — List existing users
-- `delete user <name> on <ph|hk|sg>` — Delete a user
+- `add user <name> on <ph|hk|both>` — Create a new V2Ray user
+- `list users on <ph|hk>` — List existing users
+- `delete user <name> on <ph|hk>` — Delete a user
 
 *Services:*
-- `restart v2ray on <ph|hk|sg>` — Restart V2Ray
-- `restart caddy on <ph|hk|sg>` — Restart Caddy
+- `restart v2ray on <ph|hk>` — Restart V2Ray
+- `restart caddy on <ph|hk>` — Restart Caddy
 
 *Logs:*
-- `logs v2ray on <ph|hk|sg>` — Get V2Ray logs
-- `logs caddy on <ph|hk|sg>` — Get Caddy logs
-- `logs v2ray on <ph|hk|sg> <number>` — Get last N lines
+- `logs v2ray on <ph|hk>` — Get V2Ray logs
+- `logs caddy on <ph|hk>` — Get Caddy logs
+- `logs v2ray on <ph|hk> <number>` — Get last N lines
 
 *Other:*
 - `help` — Show this message
@@ -26,8 +26,6 @@ def parse_server(text):
         return "both"
     elif " hk" in text or "hk " in text:
         return "hk"
-    elif " sg" in text or "sg " in text:
-        return "sg"
     elif " ph" in text or "ph " in text:
         return "ph"
     return None
