@@ -10,9 +10,20 @@ from namecom import create_dns_record
 
 PH_HOST = os.getenv("PH_HOST")
 HK_HOST = os.getenv("HK_HOST")
+SG_HOST = os.getenv("SG_HOST")
+
+PH_USER = os.getenv("PH_USER", "root")
+HK_USER = os.getenv("HK_USER", "root")
+SG_USER = os.getenv("SG_USER", "root")
+
+HOSTS = {"ph": PH_HOST, "hk": HK_HOST, "sg": SG_HOST}
+USERS = {"ph": PH_USER, "hk": HK_USER, "sg": SG_USER}
 
 def get_host(server):
-    return PH_HOST if server == "ph" else HK_HOST
+    return HOSTS.get(server)
+
+def get_user(server):
+    return USERS.get(server, "root")
 
 def wait_for_dns(domain, expected_ip, timeout=300, interval=15):
     print(f"Waiting for {domain} to resolve to {expected_ip}...")
@@ -69,7 +80,7 @@ def create_v2ray_user(args):
 
             # Step 3: Run v2ray add on server
             print(f"Running v2ray add on {srv}")
-            output = ssh_run(host, f"v2ray add ws {domain}")
+            output = ssh_run(host, f"v2ray add ws {domain}", user=get_user(srv))
             print(f"v2ray output: {output}")
 
             # Step 4: Strip ANSI color codes then extract VMess URL
