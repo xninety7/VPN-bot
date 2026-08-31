@@ -4,7 +4,7 @@ HELP_TEXT = """
 *VPN Ops Bot Commands*
 
 *V2Ray Users:*
-- `add user <name> on <ph|hk|sg|both>` — Create a new V2Ray user
+- `add user <name> on <ph|hk|sg|all>` — Create a new V2Ray user
 - `list users on <ph|hk|sg>` — List existing users
 - `delete user <name> on <ph|hk|sg>` — Delete a user
 
@@ -50,13 +50,13 @@ def run_agent(text):
     if text.startswith("add user"):
         server = parse_server(text)
         if not server:
-            return "❌ Please specify a server: `add user <name> on <ph|hk|both>`"
+            return "❌ Please specify a server: `add user <name> on <ph|hk|sg|all>`"
         try:
             # extract username — word after "add user"
             parts = text.replace("add user", "").strip().split()
             username = parts[0]
         except:
-            return "❌ Please provide a username: `add user <name> on <ph|hk|both>`"
+            return "❌ Please provide a username: `add user <name> on <ph|hk|sg|all>`"
 
         return execute_tool("create_v2ray_user", {
             "username": username,
@@ -66,15 +66,15 @@ def run_agent(text):
     # list users on <server>
     if "list users" in text or "list user" in text:
         server = parse_server(text)
-        if not server or server == "both":
-            return "❌ Please specify a server: `list users on <ph|hk>`"
+        if not server or server == "all":
+            return "❌ Please specify a server: `list users on <ph|hk|sg>`"
         return execute_tool("list_users", {"server": server})
 
     # delete user <name> on <server>
     if text.startswith("delete user"):
         server = parse_server(text)
-        if not server or server == "both":
-            return "❌ Please specify a server: `delete user <name> on <ph|hk>`"
+        if not server or server == "all":
+            return "❌ Please specify a server: `delete user <name> on <ph|hk|sg>`"
         try:
             parts = text.replace("delete user", "").strip().split()
             username = parts[0]
